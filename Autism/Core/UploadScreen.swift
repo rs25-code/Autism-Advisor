@@ -449,7 +449,9 @@ struct UploadScreen: View {
             
         case .failure(let error):
             Task {
-                await appState.showError("Failed to select document: \(error.localizedDescription)")
+                await MainActor.run {
+                    appState.showError("Failed to select document: \(error.localizedDescription)")
+                }
             }
         }
         

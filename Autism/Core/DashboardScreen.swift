@@ -9,53 +9,40 @@ import SwiftUI
 
 struct DashboardScreen: View {
     @EnvironmentObject var appState: AppState
+    @State private var showingUnderstandingIEPs = false
+    @State private var showingHomeStrategies = false
+    @State private var showingTeamCommunication = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Main Content
-            ScrollView {
-                VStack(spacing: 24) {
-                    // Welcome Section
-                    welcomeSection
-                    
-                    // Quick Actions
-                    quickActionsSection
-                    
-                    // Recent Documents
-                    recentDocumentsSection
-                    
-                    // Role-Specific Section
-                    roleSpecificSection
-                }
-                .padding(.horizontal, appState.isPad ? 32 : 20)
-                .padding(.vertical, 24)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                headerSection
+                statsSection
+                quickActionsSection
+                recentDocumentsSection
+                roleSpecificSection
             }
+            .padding()
         }
         .navigationTitle("Dashboard")
         .navigationBarTitleDisplayMode(.large)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                HStack(spacing: 16) {
-                    // Profile
-                    Button(action: { appState.navigate(to: .profile) }) {
-                        if let role = appState.userRole {
-                            Image(systemName: role.icon)
-                                .font(.title3)
-                                .foregroundColor(role.color)
-                        } else {
-                            Image(systemName: "person.circle")
-                                .font(.title3)
-                                .foregroundColor(.primary)
-                        }
-                    }
-                }
-            }
+        .refreshable {
+            // Add refresh functionality if needed
+        }
+        .sheet(isPresented: $showingUnderstandingIEPs) {
+            UnderstandingIEPsScreen()
+        }
+        .sheet(isPresented: $showingHomeStrategies) {
+            HomeStrategiesScreen()
+        }
+        .sheet(isPresented: $showingTeamCommunication) {
+            TeamCommunicationScreen()
         }
     }
     
-    // MARK: - Welcome Section
-    private var welcomeSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
+    // MARK: - Header Section
+    private var headerSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Welcome back!")
@@ -71,40 +58,26 @@ struct DashboardScreen: View {
                 
                 Spacer()
                 
-                if let role = appState.userRole {
-                    Image(systemName: role.icon)
-                        .font(.system(size: 40))
-                        .foregroundColor(role.color)
-                        .frame(width: 60, height: 60)
-                        .background(role.color.opacity(0.1))
-                        .cornerRadius(30)
-                }
+                Image(systemName: "heart.fill")
+                    .font(.title)
+                    .foregroundColor(.blue)
             }
-            
-            // Stats based on actual data
-            statsCards
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemBackground))
-                .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 4)
-        )
     }
     
-    // MARK: - Stats Cards
-    private var statsCards: some View {
-        HStack(spacing: 12) {
+    // MARK: - Stats Section
+    private var statsSection: some View {
+        HStack(spacing: 16) {
             StatCard(
                 title: "Documents",
                 value: "\(appState.documentHistory.count)",
-                icon: "doc.text.fill",
+                icon: "doc.fill",
                 color: .blue
             )
             
             StatCard(
                 title: "Active",
-                value: appState.currentIEP != nil ? "1" : "0",
+                value: appState.hasActiveDocument ? "1" : "0",
                 icon: "checkmark.circle.fill",
                 color: .green
             )
@@ -135,6 +108,14 @@ struct DashboardScreen: View {
                     appState.navigate(to: .upload)
                 }
                 
+                QuickActionCard(
+                    title: "Use Sample IEP",
+                    subtitle: "Try with a sample document",
+                    icon: "doc.badge.plus",
+                    color: .purple
+                ) {
+                    loadSampleIEP()
+                }
                 if appState.hasActiveDocument {
                     QuickActionCard(
                         title: "Continue Analysis",
@@ -207,6 +188,23 @@ struct DashboardScreen: View {
         }
     }
     
+    // MARK: Load Sample IEP for processing
+    private func loadSampleIEP() {
+        guard let url = Bundle.main.url(forResource: "SampleIEP", withExtension: "pdf") else {
+            appState.showError("Sample IEP document not found in app bundle")
+            return
+        }
+        
+        appState.startUploadSession()
+        
+        Task {
+            await appState.processSelectedDocument(url: url)
+        }
+        
+        // Add this line:
+        appState.navigate(to: .upload)
+    }
+    
     // MARK: - Helper Methods
     private func getRoleSpecificTitle() -> String {
         switch appState.userRole {
@@ -221,9 +219,15 @@ struct DashboardScreen: View {
         switch appState.userRole {
         case .parent:
             return [
-                RoleAction(title: "Understanding IEPs", subtitle: "Learn about your child's plan", icon: "book.fill", action: {}),
-                RoleAction(title: "Home Strategies", subtitle: "Support learning at home", icon: "house.fill", action: {}),
-                RoleAction(title: "Team Communication", subtitle: "Connect with educators", icon: "message.fill", action: {})
+                RoleAction(title: "Understanding IEPs", subtitle: "Learn about your child's plan", icon: "book.fill", action: {
+                    showingUnderstandingIEPs = true
+                }),
+                RoleAction(title: "Home Strategies", subtitle: "Support learning at home", icon: "house.fill", action: {
+                    showingHomeStrategies = true
+                }),
+                RoleAction(title: "Team Communication", subtitle: "Connect with educators", icon: "message.fill", action: {
+                    showingTeamCommunication = true
+                })
             ]
         case .teacher:
             return [
@@ -239,6 +243,22 @@ struct DashboardScreen: View {
             ]
         case .none:
             return []
+        }
+    }
+    
+    private func timeAgo(_ date: Date) -> String {
+        let now = Date()
+        let interval = now.timeIntervalSince(date)
+        
+        let days = Int(interval / 86400)
+        let hours = Int(interval / 3600) % 24
+        
+        if days > 0 {
+            return "\(days)d ago"
+        } else if hours > 0 {
+            return "\(hours)h ago"
+        } else {
+            return "Recently"
         }
     }
 }
@@ -288,15 +308,15 @@ struct QuickActionCard: View {
     
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 16) {
+            HStack(spacing: 12) {
                 Image(systemName: icon)
-                    .font(.title2)
+                    .font(.title3)
                     .foregroundColor(color)
-                    .frame(width: 40, height: 40)
+                    .frame(width: 32, height: 32)
                     .background(color.opacity(0.1))
-                    .cornerRadius(20)
+                    .cornerRadius(8)
                 
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text(title)
                         .font(.subheadline)
                         .fontWeight(.medium)
@@ -316,7 +336,7 @@ struct QuickActionCard: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(.systemGray6).opacity(0.5))
+                    .fill(Color(.systemGray6).opacity(0.3))
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -366,6 +386,22 @@ struct DocumentRow: View {
             )
         }
         .buttonStyle(PlainButtonStyle())
+    }
+    
+    private func timeAgo(_ date: Date) -> String {
+        let now = Date()
+        let interval = now.timeIntervalSince(date)
+        
+        let days = Int(interval / 86400)
+        let hours = Int(interval / 3600) % 24
+        
+        if days > 0 {
+            return "\(days)d ago"
+        } else if hours > 0 {
+            return "\(hours)h ago"
+        } else {
+            return "Recently"
+        }
     }
 }
 

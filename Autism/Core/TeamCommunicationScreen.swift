@@ -2,7 +2,7 @@
 //  TeamCommunicationScreen.swift
 //  Autism
 //
-//  Created by Rhea Sreedhar on 9/12/25.
+//  Created by AI Assistant on 9/12/25.
 //
 
 import SwiftUI

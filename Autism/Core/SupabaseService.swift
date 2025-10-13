@@ -190,6 +190,40 @@ class SupabaseService: ObservableObject {
         isLoading = false
     }
     
+    // Delete user account permanently
+    func deleteAccount() async throws {
+        guard let currentUser = currentUser else {
+            throw SupabaseAuthError.userNotFound
+        }
+        
+        // Remove the unused currentProfile check since we only need the user ID
+        
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            // Delete from the users table (custom table)
+            try await supabase
+                .from("users")
+                .delete()
+                .eq("id", value: currentUser.id)
+                .execute()
+            
+            print("✅ User profile deleted from database")
+            
+            // Sign out and clear all state
+            await clearAuthenticationState()
+            
+            print("✅ Account deletion completed successfully")
+            
+        } catch {
+            await handleAuthError(error)
+            throw error
+        }
+        
+        isLoading = false
+    }
+    
     // MARK: - Profile Management
     
     /// Create user profile in the users table

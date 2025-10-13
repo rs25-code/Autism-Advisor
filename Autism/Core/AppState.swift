@@ -86,18 +86,28 @@ class AppState: ObservableObject {
     }
 
     // MARK: - Explicit session checking
-    func checkForExistingSession() async {
-        await supabaseService.checkAuthenticationStatus()
-        
-        if supabaseService.isAuthenticated,
-           let profile = supabaseService.currentProfile {
-            await updateAuthenticationState(profile: profile)
-        } else {
-            // No existing session, stay on current screen
-            self.isLoggedIn = false
-            self.currentScreen = .landing
+    
+        func checkForExistingSession() async {
+            await supabaseService.checkAuthenticationStatus()
+            
+            // Only auto-login if user is authenticated AND we want to bypass normal flow
+            // For now, let's disable auto-login to ensure proper navigation flow
+            if supabaseService.isAuthenticated,
+               let profile = supabaseService.currentProfile {
+                // User has valid session but we'll let them go through normal flow
+                // This ensures the landing -> role selection flow works as expected
+                
+                // Optional: You could store this info for later use
+                // self.hasExistingSession = true
+                
+                // Don't automatically update state here - let user choose their path
+                print("✅ Found existing session for user: \(profile.name)")
+            } else {
+                // No existing session
+                self.isLoggedIn = false
+                print("ℹ️ No existing session found")
+            }
         }
-    }
     
     // MARK: - Navigation Methods
     func navigate(to screen: Screen) {

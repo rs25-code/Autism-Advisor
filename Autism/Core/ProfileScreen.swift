@@ -15,6 +15,13 @@ struct ProfileScreen: View {
     @State private var isLoadingProfile = false
     @State private var isUpdatingProfile = false
     
+    // Account deletion states
+    @State private var showingDeleteAccountAlert = false
+    @State private var showingDeleteConfirmation = false
+    @State private var deleteConfirmationText = ""
+    @State private var isDeletingAccount = false
+    @State private var showingAccountDeletedAlert = false
+    
     // Editable profile fields
     @State private var editableName: String = ""
     @State private var editablePhone: String = ""
@@ -86,8 +93,34 @@ struct ProfileScreen: View {
         } message: {
             Text("Are you sure you want to sign out?")
         }
+        .alert("Delete Account", isPresented: $showingDeleteAccountAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Continue", role: .destructive) {
+                showingDeleteConfirmation = true
+            }
+        } message: {
+            Text("This action is irreversible and cannot be recovered. All your data will be permanently deleted.")
+        }
+        .alert("Account Deleted", isPresented: $showingAccountDeletedAlert) {
+            Button("Log Out") {
+                appState.logout()
+            }
+        } message: {
+            Text("Your account has been permanently deleted. Click the logoff button to logout.")
+        }
         .sheet(isPresented: $showingRoleChange) {
             RoleChangeSheet()
+        }
+        .sheet(isPresented: $showingDeleteConfirmation) {
+            DeleteAccountConfirmationView(
+                deleteConfirmationText: $deleteConfirmationText,
+                isDeletingAccount: $isDeletingAccount,
+                onCancel: {
+                    showingDeleteConfirmation = false
+                    deleteConfirmationText = ""
+                },
+                onDelete: deleteAccount
+            )
         }
         .onAppear {
             loadProfile()
@@ -107,7 +140,7 @@ struct ProfileScreen: View {
                     Text(initials)
                         .font(.title)
                         .fontWeight(.semibold)
-                        .foregroundColor(.orange)
+                        .foregroundColor(ColorTheme.primary)
                     
                     if isEditing {
                         VStack {
@@ -115,13 +148,13 @@ struct ProfileScreen: View {
                             HStack {
                                 Spacer()
                                 Button(action: {
-                                    // TODO: Implement photo picker
+                                    // TODO: Implement avatar photo picker
                                 }) {
                                     Image(systemName: "camera.fill")
+                                        .font(.caption)
                                         .foregroundColor(.white)
-                                        .padding(8)
-                                        .background(Color.orange)
-                                        .clipShape(Circle())
+                                        .frame(width: 28, height: 28)
+                                        .background(Circle().fill(ColorTheme.primary))
                                 }
                             }
                         }
@@ -129,40 +162,27 @@ struct ProfileScreen: View {
                     }
                 }
                 
-                VStack(spacing: 12) {
+                VStack(spacing: 8) {
                     if isEditing {
                         TextField("Full Name", text: $editableName)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .multilineTextAlignment(.center)
                             .font(.title2)
                             .fontWeight(.semibold)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
                     } else {
                         Text(displayName)
                             .font(.title2)
                             .fontWeight(.semibold)
                     }
                     
-                    // Role Badge
-                    HStack(spacing: 8) {
-                        if let role = currentUserRole {
-                            Image(systemName: role.icon)
-                                .foregroundColor(role.color)
-                            
-                            Text(role.displayName)
-                                .fontWeight(.medium)
-                        }
-                        
-                        Button(action: { showingRoleChange = true }) {
-                            Image(systemName: "pencil")
-                                .font(.caption)
-                        }
-                        .foregroundColor(.secondary)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
-                    .background(currentUserRole?.color.opacity(0.1) ?? Color.gray.opacity(0.1))
-                    .foregroundColor(currentUserRole?.color ?? .gray)
-                    .cornerRadius(20)
+                    // Role badge
+                    Text(currentUserRole?.displayName ?? "Unknown Role")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 6)
+                        .background(currentUserRole?.color.opacity(0.1) ?? Color.gray.opacity(0.1))
+                        .foregroundColor(currentUserRole?.color ?? .gray)
+                        .cornerRadius(20)
                     
                     // Member since
                     Text("Member since \(memberSinceText)")
@@ -314,6 +334,30 @@ struct ProfileScreen: View {
             ) {
                 showingLogoutAlert = true
             }
+            
+            // Account Deletion Button
+            Button(action: {
+                showingDeleteAccountAlert = true
+            }) {
+                HStack(spacing: 12) {
+                    Image(systemName: "trash.fill")
+                        .foregroundColor(.white)
+                        .frame(width: 24)
+                    
+                    Text("Delete Account")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(.white)
+                    
+                    Spacer()
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color(red: 0.8, green: 0.1, blue: 0.1)) // Dark red
+                )
+            }
+            .buttonStyle(PlainButtonStyle())
         }
     }
     
@@ -352,19 +396,22 @@ struct ProfileScreen: View {
     
     // MARK: - Helper Methods
     private func loadProfile() {
-        guard let profile = currentProfile else {
+        guard currentProfile != nil else {
             // If no profile is loaded, try to fetch it
             if let userId = appState.supabaseService.currentUser?.id {
                 isLoadingProfile = true
                 Task {
                     do {
                         _ = try await appState.supabaseService.fetchUserProfile(userId: userId)
-                        await updateEditableFields()
+                        await MainActor.run {
+                            updateEditableFields()
+                            isLoadingProfile = false
+                        }
                     } catch {
-                        await appState.showError("Failed to load profile: \(error.localizedDescription)")
-                    }
-                    await MainActor.run {
-                        isLoadingProfile = false
+                        await MainActor.run {
+                            appState.showError("Failed to load profile: \(error.localizedDescription)")
+                            isLoadingProfile = false
+                        }
                     }
                 }
             }
@@ -421,8 +468,8 @@ struct ProfileScreen: View {
                     isUpdatingProfile = false
                 }
             } catch {
-                await appState.showError("Failed to update profile: \(error.localizedDescription)")
                 await MainActor.run {
+                    appState.showError("Failed to update profile: \(error.localizedDescription)")
                     isUpdatingProfile = false
                 }
             }
@@ -437,7 +484,29 @@ struct ProfileScreen: View {
                     appState.logout()
                 }
             } catch {
-                await appState.showError("Failed to sign out: \(error.localizedDescription)")
+                await MainActor.run {
+                    appState.showError("Failed to sign out: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    private func deleteAccount() {
+        isDeletingAccount = true
+        Task {
+            do {
+                try await appState.supabaseService.deleteAccount()
+                await MainActor.run {
+                    isDeletingAccount = false
+                    showingDeleteConfirmation = false
+                    deleteConfirmationText = ""
+                    showingAccountDeletedAlert = true
+                }
+            } catch {
+                await MainActor.run {
+                    appState.showError("Failed to delete account: \(error.localizedDescription)")
+                    isDeletingAccount = false
+                }
             }
         }
     }
@@ -446,24 +515,24 @@ struct ProfileScreen: View {
         switch currentUserRole {
         case .parent:
             return [
-                ActivityStat(title: "Documents Uploaded", value: "\(appState.documentHistory.count)", icon: "doc.fill", color: .blue),
-                ActivityStat(title: "Analyses Created", value: "12", icon: "chart.bar.fill", color: .green),
-                ActivityStat(title: "Questions Asked", value: "28", icon: "message.fill", color: .orange),
-                ActivityStat(title: "Progress Reviews", value: "5", icon: "checkmark.circle.fill", color: .purple)
+                ActivityStat(title: "Documents Uploaded", value: "12", icon: "doc.fill", color: .blue),
+                ActivityStat(title: "Analyses Created", value: "8", icon: "chart.bar.fill", color: .green),
+                ActivityStat(title: "Questions Asked", value: "45", icon: "questionmark.circle.fill", color: .orange),
+                ActivityStat(title: "Days Active", value: "23", icon: "calendar.fill", color: .purple)
             ]
         case .teacher:
             return [
-                ActivityStat(title: "IEPs Reviewed", value: "\(appState.documentHistory.count)", icon: "doc.text.fill", color: .blue),
-                ActivityStat(title: "Strategies Generated", value: "15", icon: "lightbulb.fill", color: .yellow),
-                ActivityStat(title: "Student Insights", value: "32", icon: "person.2.fill", color: .green),
-                ActivityStat(title: "Implementation Plans", value: "8", icon: "list.bullet.clipboard", color: .purple)
+                ActivityStat(title: "Students", value: "24", icon: "person.2.fill", color: .blue),
+                ActivityStat(title: "IEPs Reviewed", value: "18", icon: "doc.text.fill", color: .green),
+                ActivityStat(title: "Reports Generated", value: "6", icon: "chart.pie.fill", color: .orange),
+                ActivityStat(title: "Collaborations", value: "12", icon: "person.3.fill", color: .purple)
             ]
         case .counselor:
             return [
-                ActivityStat(title: "Students Supported", value: "24", icon: "heart.fill", color: .red),
-                ActivityStat(title: "Service Coordinations", value: "18", icon: "link", color: .blue),
-                ActivityStat(title: "Progress Meetings", value: "12", icon: "calendar", color: .green),
-                ActivityStat(title: "Resource Connections", value: "35", icon: "network", color: .purple)
+                ActivityStat(title: "Assessments", value: "15", icon: "clipboard.fill", color: .blue),
+                ActivityStat(title: "Recommendations", value: "32", icon: "lightbulb.fill", color: .green),
+                ActivityStat(title: "Follow-ups", value: "28", icon: "arrow.clockwise", color: .orange),
+                ActivityStat(title: "Resources Shared", value: "41", icon: "book.fill", color: .purple)
             ]
         case .none:
             return []
@@ -486,7 +555,109 @@ struct ProfileScreen: View {
     }
 }
 
-// MARK: - Supporting Views
+// MARK: - Delete Account Confirmation View
+struct DeleteAccountConfirmationView: View {
+    @Binding var deleteConfirmationText: String
+    @Binding var isDeletingAccount: Bool
+    let onCancel: () -> Void
+    let onDelete: () -> Void
+    
+    private var isDeleteEnabled: Bool {
+        deleteConfirmationText == "DELETE"
+    }
+    
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 24) {
+                warningSection
+                confirmationSection
+                Spacer()
+                buttonSection
+            }
+            .navigationTitle("Confirm Deletion")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarHidden(isDeletingAccount)
+        }
+    }
+    
+    private var warningSection: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(size: 60))
+                .foregroundColor(.red)
+                .padding(.top, 20)
+            
+            Text("Delete Account")
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(.primary)
+            
+            Text("This action is irreversible and cannot be recovered. All your data will be permanently deleted.")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+        }
+    }
+    
+    private var confirmationSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Type 'DELETE' to confirm:")
+                .font(.subheadline)
+                .fontWeight(.medium)
+            
+            TextField("DELETE", text: $deleteConfirmationText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .autocapitalization(.allCharacters)
+                .disableAutocorrection(true)
+        }
+        .padding(.horizontal)
+    }
+    
+    private var buttonSection: some View {
+        VStack(spacing: 12) {
+            deleteButton
+            cancelButton
+        }
+        .padding(.bottom, 20)
+    }
+    
+    private var deleteButton: some View {
+        Button(action: onDelete) {
+            HStack {
+                if isDeletingAccount {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .scaleEffect(0.8)
+                    Text("Deleting...")
+                } else {
+                    Text("Delete my account permanently")
+                }
+            }
+            .font(.subheadline)
+            .fontWeight(.medium)
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(isDeleteEnabled ? Color.red : Color.gray)
+            )
+        }
+        .disabled(!isDeleteEnabled || isDeletingAccount)
+        .padding(.horizontal)
+    }
+    
+    private var cancelButton: some View {
+        Button("Cancel", action: onCancel)
+            .font(.subheadline)
+            .fontWeight(.medium)
+            .foregroundColor(.blue)
+            .disabled(isDeletingAccount)
+    }
+}
+
+// MARK: - Supporting Views (unchanged)
 struct ProfileField: View {
     let icon: String
     let label: String
@@ -497,7 +668,7 @@ struct ProfileField: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
                 Image(systemName: icon)
-                    .foregroundColor(.orange)
+                    .foregroundColor(ColorTheme.primary)
                     .frame(width: 20)
                 
                 Text(label)
@@ -525,10 +696,36 @@ struct ProfileField: View {
                     .padding(.vertical, 10)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .frame(minHeight: label == "Bio" ? 60 : 40)
-                    .background(Color(.systemGray6))
+                    .background(Color(.systemGray6).opacity(0.5))
                     .cornerRadius(8)
             }
         }
+    }
+}
+
+struct PreferenceToggle: View {
+    let title: String
+    let subtitle: String
+    @Binding var isOn: Bool
+    
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            
+            Spacer()
+            
+            Toggle("", isOn: $isOn)
+                .toggleStyle(SwitchToggleStyle(tint: ColorTheme.primary))
+        }
+        .padding(.vertical, 4)
     }
 }
 
@@ -544,44 +741,20 @@ struct ActivityStatCard: View {
             Text(stat.value)
                 .font(.title3)
                 .fontWeight(.bold)
+                .foregroundColor(.primary)
             
             Text(stat.title)
                 .font(.caption)
-                .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
         }
         .padding()
-        .frame(minHeight: 100)
+        .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(stat.color.opacity(0.1))
+                .fill(Color(.systemGray6).opacity(0.5))
         )
-    }
-}
-
-struct PreferenceToggle: View {
-    let title: String
-    let subtitle: String
-    @Binding var isOn: Bool
-    
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                
-                Text(subtitle)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-            
-            Spacer()
-            
-            Toggle("", isOn: $isOn)
-                .toggleStyle(SwitchToggleStyle(tint: .orange))
-        }
-        .padding(.vertical, 4)
     }
 }
 
@@ -634,57 +807,8 @@ struct RoleChangeSheet: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                Text("Select your role to customize your experience")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.top)
-                
-                VStack(spacing: 16) {
-                    ForEach(UserRole.allCases, id: \.self) { role in
-                        Button(action: {
-                            // TODO: Implement role change in Supabase
-                            appState.userRole = role
-                            dismiss()
-                        }) {
-                            HStack(spacing: 16) {
-                                Image(systemName: role.icon)
-                                    .font(.title2)
-                                    .foregroundColor(role.color)
-                                    .frame(width: 32, height: 32)
-                                
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(role.displayName)
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                    
-                                    Text(getRoleDescription(role))
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
-                                }
-                                
-                                Spacer()
-                                
-                                if appState.userRole == role {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(role.color)
-                                }
-                            }
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(appState.userRole == role ? role.color.opacity(0.1) : Color(.systemGray6))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .stroke(appState.userRole == role ? role.color.opacity(0.3) : Color.clear, lineWidth: 2)
-                                    )
-                            )
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                }
-                
-                Spacer()
+                headerSection
+                roleListSection
             }
             .padding()
             .navigationTitle("Change Role")
@@ -699,27 +823,59 @@ struct RoleChangeSheet: View {
         }
     }
     
+    private var headerSection: some View {
+        Text("Select your role to customize your experience")
+            .font(.subheadline)
+            .foregroundColor(.secondary)
+            .multilineTextAlignment(.center)
+            .padding(.top)
+    }
+    
+    private var roleListSection: some View {
+        VStack(spacing: 16) {
+            ForEach(UserRole.allCases, id: \.self) { role in
+                roleButton(for: role)
+            }
+        }
+    }
+    
+    private func roleButton(for role: UserRole) -> some View {
+        Button(action: {
+            // TODO: Implement role change
+            dismiss()
+        }) {
+            HStack {
+                Image(systemName: role.icon)
+                    .foregroundColor(role.color)
+                    .frame(width: 30)
+                
+                VStack(alignment: .leading) {
+                    Text(role.displayName)
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                    
+                    Text(getRoleDescription(role))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                
+                Spacer()
+            }
+            .padding()
+            .background(Color(.systemGray6))
+            .cornerRadius(12)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+    
     private func getRoleDescription(_ role: UserRole) -> String {
         switch role {
         case .parent:
             return "Track your child's progress and collaborate with educators"
         case .teacher:
-            return "Analyze student IEPs and create implementation plans"
+            return "Manage IEPs and coordinate with families and specialists"
         case .counselor:
-            return "Coordinate services and support student success"
+            return "Provide assessments and support educational planning"
         }
-    }
-}
-
-// MARK: - Preview
-struct ProfileScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileScreen()
-            .environmentObject({
-                let state = AppState()
-                state.userRole = .teacher
-                state.isLoggedIn = true
-                return state
-            }())
     }
 }

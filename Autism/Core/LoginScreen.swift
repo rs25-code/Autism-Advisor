@@ -82,7 +82,7 @@ struct LoginScreen: View {
                 .overlay(
                     Image(systemName: "brain.head.profile")
                         .font(.system(size: 44))
-                        .foregroundColor(.orange)
+                        .foregroundColor(.blue)
                 )
             
             // Title
@@ -217,7 +217,7 @@ struct LoginScreen: View {
                     handleForgotPassword()
                 }
                 .font(.subheadline)
-                .foregroundColor(.orange)
+                .foregroundColor(.blue)
             }
         }
     }
@@ -237,7 +237,7 @@ struct LoginScreen: View {
             }
             .font(.subheadline)
             .fontWeight(.medium)
-            .foregroundColor(.orange)
+            .foregroundColor(.blue)
         }
         .padding(.top, 8)
     }
