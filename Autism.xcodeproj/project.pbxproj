@@ -1,0 +1,658 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		83288D4A2E711506002A7EAC /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 83288D492E711506002A7EAC /* Auth */; };
+		83288D4C2E711506002A7EAC /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 83288D4B2E711506002A7EAC /* Functions */; };
+		83288D4E2E711506002A7EAC /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 83288D4D2E711506002A7EAC /* PostgREST */; };
+		83288D502E711506002A7EAC /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 83288D4F2E711506002A7EAC /* Realtime */; };
+		83288D522E711506002A7EAC /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 83288D512E711506002A7EAC /* Storage */; };
+		83288D592E711A6A002A7EAC /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 83288D582E711A6A002A7EAC /* Supabase */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A8317C8A2E411570006E67C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A8317C712E411570006E67C7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8317C782E411570006E67C7;
+			remoteInfo = Autism;
+		};
+		A8317C942E411570006E67C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A8317C712E411570006E67C7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8317C782E411570006E67C7;
+			remoteInfo = Autism;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A8317C792E411570006E67C7 /* Autism.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Autism.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8317C892E411570006E67C7 /* AutismTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AutismTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8317C932E411570006E67C7 /* AutismUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AutismUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A8317CEB2E41AFFA006E67C7 /* Exceptions for "Autism" folder in "Autism" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A8317C782E411570006E67C7 /* Autism */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A8317C7B2E411570006E67C7 /* Autism */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A8317CEB2E41AFFA006E67C7 /* Exceptions for "Autism" folder in "Autism" target */,
+			);
+			path = Autism;
+			sourceTree = "<group>";
+		};
+		A8317C8C2E411570006E67C7 /* AutismTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AutismTests;
+			sourceTree = "<group>";
+		};
+		A8317C962E411570006E67C7 /* AutismUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AutismUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A8317C762E411570006E67C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83288D4E2E711506002A7EAC /* PostgREST in Frameworks */,
+				83288D4C2E711506002A7EAC /* Functions in Frameworks */,
+				83288D592E711A6A002A7EAC /* Supabase in Frameworks */,
+				83288D4A2E711506002A7EAC /* Auth in Frameworks */,
+				83288D522E711506002A7EAC /* Storage in Frameworks */,
+				83288D502E711506002A7EAC /* Realtime in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8317C862E411570006E67C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8317C902E411570006E67C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		83288D572E711A6A002A7EAC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A8317C702E411570006E67C7 = {
+			isa = PBXGroup;
+			children = (
+				A8317C7B2E411570006E67C7 /* Autism */,
+				A8317C8C2E411570006E67C7 /* AutismTests */,
+				A8317C962E411570006E67C7 /* AutismUITests */,
+				83288D572E711A6A002A7EAC /* Frameworks */,
+				A8317C7A2E411570006E67C7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A8317C7A2E411570006E67C7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A8317C792E411570006E67C7 /* Autism.app */,
+				A8317C892E411570006E67C7 /* AutismTests.xctest */,
+				A8317C932E411570006E67C7 /* AutismUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A8317C782E411570006E67C7 /* Autism */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8317C9D2E411570006E67C7 /* Build configuration list for PBXNativeTarget "Autism" */;
+			buildPhases = (
+				A8317C752E411570006E67C7 /* Sources */,
+				A8317C762E411570006E67C7 /* Frameworks */,
+				A8317C772E411570006E67C7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A8317C7B2E411570006E67C7 /* Autism */,
+			);
+			name = Autism;
+			packageProductDependencies = (
+				83288D492E711506002A7EAC /* Auth */,
+				83288D4B2E711506002A7EAC /* Functions */,
+				83288D4D2E711506002A7EAC /* PostgREST */,
+				83288D4F2E711506002A7EAC /* Realtime */,
+				83288D512E711506002A7EAC /* Storage */,
+				83288D582E711A6A002A7EAC /* Supabase */,
+			);
+			productName = Autism;
+			productReference = A8317C792E411570006E67C7 /* Autism.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A8317C882E411570006E67C7 /* AutismTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8317CA02E411570006E67C7 /* Build configuration list for PBXNativeTarget "AutismTests" */;
+			buildPhases = (
+				A8317C852E411570006E67C7 /* Sources */,
+				A8317C862E411570006E67C7 /* Frameworks */,
+				A8317C872E411570006E67C7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8317C8B2E411570006E67C7 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A8317C8C2E411570006E67C7 /* AutismTests */,
+			);
+			name = AutismTests;
+			packageProductDependencies = (
+			);
+			productName = AutismTests;
+			productReference = A8317C892E411570006E67C7 /* AutismTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A8317C922E411570006E67C7 /* AutismUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8317CA32E411570006E67C7 /* Build configuration list for PBXNativeTarget "AutismUITests" */;
+			buildPhases = (
+				A8317C8F2E411570006E67C7 /* Sources */,
+				A8317C902E411570006E67C7 /* Frameworks */,
+				A8317C912E411570006E67C7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8317C952E411570006E67C7 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A8317C962E411570006E67C7 /* AutismUITests */,
+			);
+			name = AutismUITests;
+			packageProductDependencies = (
+			);
+			productName = AutismUITests;
+			productReference = A8317C932E411570006E67C7 /* AutismUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A8317C712E411570006E67C7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					A8317C782E411570006E67C7 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					A8317C882E411570006E67C7 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = A8317C782E411570006E67C7;
+					};
+					A8317C922E411570006E67C7 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = A8317C782E411570006E67C7;
+					};
+				};
+			};
+			buildConfigurationList = A8317C742E411570006E67C7 /* Build configuration list for PBXProject "Autism" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A8317C702E411570006E67C7;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				83288D482E711506002A7EAC /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A8317C7A2E411570006E67C7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A8317C782E411570006E67C7 /* Autism */,
+				A8317C882E411570006E67C7 /* AutismTests */,
+				A8317C922E411570006E67C7 /* AutismUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A8317C772E411570006E67C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8317C872E411570006E67C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8317C912E411570006E67C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A8317C752E411570006E67C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8317C852E411570006E67C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8317C8F2E411570006E67C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A8317C8B2E411570006E67C7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8317C782E411570006E67C7 /* Autism */;
+			targetProxy = A8317C8A2E411570006E67C7 /* PBXContainerItemProxy */;
+		};
+		A8317C952E411570006E67C7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8317C782E411570006E67C7 /* Autism */;
+			targetProxy = A8317C942E411570006E67C7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A8317C9B2E411570006E67C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A8317C9C2E411570006E67C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A8317C9E2E411570006E67C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Autism/Preview Content\"";
+				DEVELOPMENT_TEAM = 2XRN5V8Y39;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Autism/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Autism Advisor";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app needs microphone access to convert your speech to text for asking questions about IEP documents.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "This app uses speech recognition to convert your voice input into text for easier communication with the AI assistant.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OPENAI_API_KEY = "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";
+				PRODUCT_BUNDLE_IDENTIFIER = "Rhea-Sreedhar.Autism";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A8317C9F2E411570006E67C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Autism/Preview Content\"";
+				DEVELOPMENT_TEAM = 2XRN5V8Y39;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Autism/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Autism Advisor";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app needs microphone access to convert your speech to text for asking questions about IEP documents.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "This app uses speech recognition to convert your voice input into text for easier communication with the AI assistant.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OPENAI_API_KEY = "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";
+				PRODUCT_BUNDLE_IDENTIFIER = "Rhea-Sreedhar.Autism";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A8317CA12E411570006E67C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Rhea-Sreedhar.AutismTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Autism.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Autism";
+			};
+			name = Debug;
+		};
+		A8317CA22E411570006E67C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Rhea-Sreedhar.AutismTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Autism.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Autism";
+			};
+			name = Release;
+		};
+		A8317CA42E411570006E67C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Rhea-Sreedhar.AutismUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Autism;
+			};
+			name = Debug;
+		};
+		A8317CA52E411570006E67C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Rhea-Sreedhar.AutismUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Autism;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A8317C742E411570006E67C7 /* Build configuration list for PBXProject "Autism" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8317C9B2E411570006E67C7 /* Debug */,
+				A8317C9C2E411570006E67C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8317C9D2E411570006E67C7 /* Build configuration list for PBXNativeTarget "Autism" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8317C9E2E411570006E67C7 /* Debug */,
+				A8317C9F2E411570006E67C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8317CA02E411570006E67C7 /* Build configuration list for PBXNativeTarget "AutismTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8317CA12E411570006E67C7 /* Debug */,
+				A8317CA22E411570006E67C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8317CA32E411570006E67C7 /* Build configuration list for PBXNativeTarget "AutismUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8317CA42E411570006E67C7 /* Debug */,
+				A8317CA52E411570006E67C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		83288D482E711506002A7EAC /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		83288D492E711506002A7EAC /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 83288D482E711506002A7EAC /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		83288D4B2E711506002A7EAC /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 83288D482E711506002A7EAC /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		83288D4D2E711506002A7EAC /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 83288D482E711506002A7EAC /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		83288D4F2E711506002A7EAC /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 83288D482E711506002A7EAC /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		83288D512E711506002A7EAC /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 83288D482E711506002A7EAC /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		83288D582E711A6A002A7EAC /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 83288D482E711506002A7EAC /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = A8317C712E411570006E67C7 /* Project object */;
+}

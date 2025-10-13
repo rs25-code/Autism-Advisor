@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SUPABASE_URL</key>
+	<string>https://hqqofluvrvqbhbdsfcyw.supabase.co</string>
+	<key>SUPABASE_ANON_KEY</key>
+	<string>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxcW9mbHV2cnZxYmhiZHNmY3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQxNTI1OTQsImV4cCI6MjA2OTcyODU5NH0.va-Bwq4L-IvkeY8G76DZPhmuIsrHvBZSIumPSvZwEl4</string>
+	<key>OPENAI_API_KEY</key>
+	<string>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</string>
+</dict>
+</plist>
