@@ -1,4 +1,4 @@
-# IEP & 504 Plan Assistant
+# Autism Advisor - IEP & 504 Plan Assistant
 
 An iOS application that uses AI to analyze IEP (Individualized Education Program) and 504 plan documents, providing actionable insights and support for students with autism and ADHD.
 
