@@ -6,6 +6,11 @@ An iOS application that uses AI to analyze IEP (Individualized Education Program
 
 This app helps parents, teachers, and counselors understand and implement educational support plans more effectively by leveraging OpenAI's API to analyze documents and provide personalized recommendations.
 
+## Requirements
+
+<img width="1676" height="843" alt="image" src="https://github.com/user-attachments/assets/8db4d36b-a105-4bf2-b83f-9cc05592237d" />
+
+
 ## ✨ Features
 
 ### Document Analysis
